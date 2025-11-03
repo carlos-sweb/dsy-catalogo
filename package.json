@@ -1,0 +1,23 @@
+{
+  "name": "dsy-catalogo",
+  "version": "1.0.0",
+  "description": "Catálogo web de productos para paquetería",
+  "main": "src/build.js",
+  "scripts": {
+    "build": "node src/build.js",
+    "start": "node src/server.js",
+    "dev": "npm run build && npm start"
+  },
+  "keywords": [
+    "catalogo",
+    "productos",
+    "paqueteria",
+    "static-site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {}
+}

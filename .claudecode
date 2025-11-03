@@ -1,0 +1,99 @@
+# Proyecto DSY Catálogo
+
+## Objetivo del Proyecto
+Este proyecto tiene como objetivo mostrar los productos de un negocio de forma web mediante un sitio estático alojado en GitHub Pages.
+
+## Arquitectura del Proyecto
+
+### Estructura de Directorios
+
+```
+dsy-catalogo/
+├── public/              # Contenido final para GitHub Pages
+│   ├── index.html       # HTML generado estáticamente
+│   ├── styles.css       # Estilos CSS
+│   └── assets/          # Recursos estáticos
+├── src/                 # Código fuente de construcción
+│   └── build.js         # Script Node.js para generar el sitio
+├── data.yml             # Datos de productos en formato YAML
+└── package.json         # Dependencias de Node.js
+```
+
+### Flujo de Trabajo
+
+1. **Datos de Productos**: Los datos están definidos en `data.yml` con la siguiente estructura:
+   - Nombre del producto
+   - Descripción
+   - Precio
+   - Características
+   - Link de foto del producto (si no existe foto, usar placeholder de placehold.com)
+
+2. **Construcción Dinámica**: Scripts en Node.js leen `data.yml` y generan el HTML estático en la carpeta `public/`
+
+3. **Despliegue**: GitHub Pages sirve el contenido de la carpeta `public/`
+
+## Formato de Datos (data.yml)
+
+```yaml
+productos:
+  - id: 1
+    nombre: "Producto Ejemplo"
+    descripcion: "Descripción del producto"
+    precio: 1999.99
+    caracteristicas:
+      - "Característica 1"
+      - "Característica 2"
+      - "Característica 3"
+    imagen: "https://placehold.com/400x300?text=Producto"
+    disponible: true
+```
+
+## Migración desde index.html
+
+Si existe un `index.html` actual con datos hardcodeados:
+1. Extraer todos los datos de productos del HTML
+2. Estructurarlos en el formato YAML especificado
+3. Mover el archivo a `data.yml`
+4. Crear el sistema de construcción con Node.js
+
+## Imágenes de Productos
+
+- **Con foto**: Usar el link directo de la imagen del producto
+- **Sin foto**: Usar placeholder de placehold.com:
+  - Formato: `https://placehold.com/WIDTHxHEIGHT?text=NOMBRE_PRODUCTO`
+  - Ejemplo: `https://placehold.com/400x300?text=Sin+Imagen`
+
+## Comandos Principales
+
+```bash
+# Instalar dependencias
+npm install
+
+# Construir el sitio
+npm run build
+
+# Desarrollo local (si aplica)
+npm run dev
+```
+
+## Configuración de GitHub Pages
+
+- **Source**: carpeta `public/`
+- **Branch**: `main` o `gh-pages`
+- **Custom Domain**: (opcional)
+
+## Tecnologías
+
+- **Frontend**: HTML5, CSS3, JavaScript (vanilla)
+- **Build**: Node.js
+- **Datos**: YAML
+- **Hosting**: GitHub Pages
+- **Parser YAML**: js-yaml (Node.js)
+
+## Notas de Desarrollo
+
+- Mantener el código de construcción simple y mantenible
+- El sitio final debe ser completamente estático (sin backend)
+- Optimizar imágenes y recursos para carga rápida
+- Asegurar que el sitio sea responsive
+- Considerar SEO básico en la generación del HTML
