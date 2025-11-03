@@ -307,24 +307,28 @@ productos:
   - id: 24
     nombre: "Encendedor Ronson ClearLite"
     descripcion: "Encendedor premium - Display completo"
-    precio: 3500
-    precio_unitario: 175
+    precio: 3600
+    precio_unitario: 180
     categoria: "tabaqueria"
     caracteristicas:
       - "Presentación: Display de 20 unidades"
-      - "Precio unitario: $175"
-      - "Valor display: $3.500 (20 × $175)"
-    imagen: "ronson-clearlite-display.png"
+      - "Precio unitario: $180"
+      - "Valor display: $3.600 (20 × $180)"
+    imagen: "./assets/encendedor-ronson-display.jpg"
     disponible: true
 
   - id: 25
-    nombre: "Producto Tabaquería 2"
-    descripcion: "Economía"
-    precio: 135
+    nombre: "Papel Fino Ronson"
+    descripcion: "Papelillos rolling - Caja de 25 libritos"
+    precio: 10000
+    precio_unitario: 400
     categoria: "tabaqueria"
     caracteristicas:
-      - "Formato: Pack x20"
-    imagen: "https://placehold.com/400x300?text=Tabaqueria+2"
+      - "Presentación: Display de 25 libritos"
+      - "Precio unitario: $400 por librito"
+      - "Valor display: $10.000 (25 × $400)"
+      - "Contenido: 50 papeles por librito"
+    imagen: "./assets/papel-fino-ronson.png"
     disponible: true
 
   # ========== ADHESIVOS ==========

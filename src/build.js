@@ -45,11 +45,11 @@ function generarProductoHTML(producto, colorConfig) {
   const precioHTML = producto.precio_unitario
     ? `<div class="text-center border-t-2 ${colorConfig.bg.replace('bg-', 'border-')} pt-5 mt-5">
                         <p class="text-lg text-gray-600 mb-3 font-medium">Valor display completo</p>
-                        <span class="text-5xl font-bold ${colorConfig.text}">${data.configuracion.simbolo_moneda}${producto.precio.toLocaleString('es-MX')}</span>
+                        <span class="text-5xl font-bold ${colorConfig.text}">${data.configuracion.simbolo_moneda}${producto.precio.toLocaleString('es-CL')}</span>
                         <p class="text-base text-gray-500 mt-2">Precio unitario: ${data.configuracion.simbolo_moneda}${producto.precio_unitario}</p>
                     </div>`
     : `<div class="text-center border-t-2 ${colorConfig.bg.replace('bg-', 'border-')} pt-5 mt-5">
-                        <span class="text-5xl font-bold ${colorConfig.text}">${data.configuracion.simbolo_moneda}${producto.precio.toLocaleString('es-MX')}</span>
+                        <span class="text-5xl font-bold ${colorConfig.text}">${data.configuracion.simbolo_moneda}${producto.precio.toLocaleString('es-CL')}</span>
                     </div>`;
 
   return `
@@ -197,6 +197,55 @@ const htmlTemplate = `<!DOCTYPE html>
         .categoria-section.hidden {
             display: none;
         }
+
+        /* Botón flotante de búsqueda */
+        .search-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: 2px solid #e5e7eb;
+        }
+
+        .search-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), 0 12px 32px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+        }
+
+        .search-fab:active {
+            transform: scale(0.95);
+        }
+
+        .search-fab svg {
+            width: 28px;
+            height: 28px;
+            color: #374151;
+        }
+
+        /* Animación de pulso para el FAB */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .search-fab.pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -209,7 +258,7 @@ const htmlTemplate = `<!DOCTYPE html>
     </header>
 
     <!-- Buscador de Productos -->
-    <div id="search-bar" class="bg-white border-b-4 border-blue-600 shadow-md sticky top-0 z-50">
+    <div id="search-bar" class="bg-white border-b-4 border-blue-600 shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-6">
             <div id="search-container"></div>
         </div>
@@ -219,6 +268,13 @@ const htmlTemplate = `<!DOCTYPE html>
     <main class="max-w-7xl mx-auto px-4 py-12">
         ${generarCategoriasHTML()}
     </main>
+
+    <!-- Botón flotante de búsqueda -->
+    <button id="search-fab" class="search-fab" aria-label="Buscar productos" title="Buscar productos">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+    </button>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-10 mt-20">
@@ -302,18 +358,6 @@ const htmlTemplate = `<!DOCTYPE html>
                 m.redraw();
             },
 
-            scrollToSearch: function() {
-                // Hacer scroll suave hacia la barra de búsqueda
-                const searchBar = document.getElementById('search-bar');
-                if (searchBar) {
-                    // Scroll con comportamiento suave
-                    searchBar.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            },
-
             view: function() {
                 return m('div', { class: 'relative' }, [
                     // Input de búsqueda
@@ -326,12 +370,6 @@ const htmlTemplate = `<!DOCTYPE html>
                             class: 'w-full text-xl px-6 py-4 pr-32 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all',
                             oninput: (e) => {
                                 this.handleInput(e.target.value);
-                            },
-                            onfocus: (e) => {
-                                // Pequeño delay para que el teclado se despliegue primero
-                                setTimeout(() => {
-                                    this.scrollToSearch();
-                                }, 150);
                             },
                             onkeydown: (e) => {
                                 if (e.key === 'Escape') {
@@ -409,6 +447,58 @@ const htmlTemplate = `<!DOCTYPE html>
         });
     </script>
 
+    <!-- Botón flotante de búsqueda -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchFab = document.getElementById('search-fab');
+            const searchBar = document.getElementById('search-bar');
+            const searchInput = document.getElementById('search-input');
+
+            // Click en el botón flotante
+            searchFab.addEventListener('click', function() {
+                // Hacer scroll suave hacia el input de búsqueda
+                searchBar.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                // Esperar a que termine el scroll y hacer focus en el input
+                setTimeout(() => {
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                }, 500);
+            });
+
+            // Mostrar/ocultar el FAB según el scroll
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const searchBarBottom = searchBar.offsetTop + searchBar.offsetHeight;
+
+                // Si estamos más abajo que la barra de búsqueda, mostrar el FAB
+                if (scrollTop > searchBarBottom + 100) {
+                    searchFab.style.opacity = '1';
+                    searchFab.style.transform = 'scale(1)';
+                    searchFab.style.pointerEvents = 'auto';
+                } else {
+                    // Si estamos arriba, ocultar el FAB
+                    searchFab.style.opacity = '0';
+                    searchFab.style.transform = 'scale(0)';
+                    searchFab.style.pointerEvents = 'none';
+                }
+
+                lastScrollTop = scrollTop;
+            }, { passive: true });
+
+            // Estado inicial: ocultar el FAB
+            searchFab.style.opacity = '0';
+            searchFab.style.transform = 'scale(0)';
+            searchFab.style.pointerEvents = 'none';
+            searchFab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    </script>
+
     <!-- Service Worker Registration -->
     <script>
         // Registrar Service Worker para PWA
@@ -477,4 +567,49 @@ console.log('🔨 Generando HTML estático...');
 fs.writeFileSync(OUTPUT_FILE, htmlTemplate, 'utf8');
 
 console.log(`✓ Archivo generado: ${OUTPUT_FILE}`);
+
+// Copiar archivos a la raíz para GitHub Pages
+const ROOT_DIR = path.join(__dirname, '..');
+const ROOT_INDEX = path.join(ROOT_DIR, 'index.html');
+
+console.log('📋 Copiando archivos a la raíz para GitHub Pages...');
+
+// Copiar index.html a la raíz
+fs.copyFileSync(OUTPUT_FILE, ROOT_INDEX);
+console.log(`✓ index.html copiado a la raíz`);
+
+// Copiar manifest.json a la raíz
+const MANIFEST_SRC = path.join(OUTPUT_DIR, 'manifest.json');
+const MANIFEST_DEST = path.join(ROOT_DIR, 'manifest.json');
+if (fs.existsSync(MANIFEST_SRC)) {
+  fs.copyFileSync(MANIFEST_SRC, MANIFEST_DEST);
+  console.log(`✓ manifest.json copiado a la raíz`);
+}
+
+// Copiar service-worker.js a la raíz
+const SW_SRC = path.join(OUTPUT_DIR, 'service-worker.js');
+const SW_DEST = path.join(ROOT_DIR, 'service-worker.js');
+if (fs.existsSync(SW_SRC)) {
+  fs.copyFileSync(SW_SRC, SW_DEST);
+  console.log(`✓ service-worker.js copiado a la raíz`);
+}
+
+// Crear symlink o copiar carpeta icons si no existe en la raíz
+const ICONS_SRC = path.join(OUTPUT_DIR, 'icons');
+const ICONS_DEST = path.join(ROOT_DIR, 'icons');
+if (fs.existsSync(ICONS_SRC) && !fs.existsSync(ICONS_DEST)) {
+  // Copiar directorio recursivamente
+  fs.cpSync(ICONS_SRC, ICONS_DEST, { recursive: true });
+  console.log(`✓ Carpeta icons/ copiada a la raíz`);
+}
+
+// Copiar carpeta assets a la raíz (siempre sincronizar)
+const ASSETS_SRC = path.join(OUTPUT_DIR, 'assets');
+const ASSETS_DEST = path.join(ROOT_DIR, 'assets');
+if (fs.existsSync(ASSETS_SRC)) {
+  // Copiar directorio recursivamente (sobrescribir si existe)
+  fs.cpSync(ASSETS_SRC, ASSETS_DEST, { recursive: true });
+  console.log(`✓ Carpeta assets/ copiada a la raíz`);
+}
+
 console.log('✅ Build completado exitosamente!');

@@ -1,0 +1,30 @@
+<svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo degradado azul -->
+  <defs>
+    <linearGradient id="grad72" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo con bordes redondeados -->
+  <rect width="72" height="72" rx="10.799999999999999" fill="url(#grad72)"/>
+
+  <!-- Icono de paquete/caja -->
+  <g transform="translate(14.4, 14.4)">
+    <!-- Caja -->
+    <rect x="7.2" y="10.799999999999999" width="28.8" height="25.2"
+          fill="none" stroke="white" stroke-width="2.88" rx="1.44"/>
+
+    <!-- Cinta horizontal -->
+    <line x1="7.2" y1="23.400000000000002" x2="36" y2="23.400000000000002"
+          stroke="white" stroke-width="3.6" stroke-linecap="round"/>
+
+    <!-- Cinta vertical -->
+    <line x1="21.599999999999998" y1="10.799999999999999" x2="21.599999999999998" y2="36"
+          stroke="white" stroke-width="3.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Texto DSY (solo en iconos grandes) -->
+  
+</svg>

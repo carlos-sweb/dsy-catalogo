@@ -4,7 +4,7 @@ Sitio web estático para mostrar productos de paquetería y accesorios. Generado
 
 ## 🌐 Sitio en Vivo
 
-**[Ver Catálogo en GitHub Pages](https://carlos-sweb.github.io/dsy-catalogo/public/)**
+**[Ver Catálogo en GitHub Pages](https://carlos-sweb.github.io/dsy-catalogo/)**
 
 > 📌 El sitio se actualiza automáticamente cuando se hace push a la rama `main`
 
@@ -28,15 +28,26 @@ Este catálogo es una **PWA completa** que puede instalarse como una aplicación
 
 ```
 dsy-catalogo/
-├── public/              # Sitio estático (se despliega en GitHub Pages)
-│   ├── index.html       # HTML generado automáticamente
-│   └── assets/          # Recursos estáticos (imágenes, etc.)
+├── index.html           # HTML en raíz (copiado automáticamente desde public/)
+├── manifest.json        # PWA manifest (copiado desde public/)
+├── service-worker.js    # Service Worker (copiado desde public/)
+├── icons/               # Iconos PWA (copiado desde public/)
+├── public/              # Directorio de build
+│   ├── index.html       # HTML generado por build.js
+│   ├── manifest.json    # Configuración PWA
+│   ├── service-worker.js
+│   ├── icons/           # Iconos en múltiples tamaños
+│   └── assets/          # Recursos estáticos
 ├── src/
-│   └── build.js         # Script de construcción Node.js
+│   ├── build.js         # Script de construcción Node.js
+│   ├── server.js        # Servidor local de desarrollo
+│   └── generate-icons.js # Generador de iconos
 ├── data.yml             # Datos de productos en formato YAML
 ├── package.json         # Dependencias del proyecto
 └── .claudecode          # Contexto para Claude Code
 ```
+
+**Nota:** El comando `npm run build` genera archivos en `public/` y automáticamente los copia a la raíz para GitHub Pages.
 
 ## Instalación
 
@@ -91,7 +102,7 @@ imagen: "producto.jpg"  # Archivo en public/producto.jpg
 
 ## GitHub Pages
 
-**URL del sitio:** https://carlos-sweb.github.io/dsy-catalogo/public/
+**URL del sitio:** https://carlos-sweb.github.io/dsy-catalogo/
 
 Para configurar/actualizar GitHub Pages:
 
@@ -108,7 +119,9 @@ Para configurar/actualizar GitHub Pages:
    - **Source:** Deploy from a branch
    - **Branch:** main
    - **Folder:** / (root)
-6. GitHub Pages automáticamente servirá el contenido de `public/`
+6. GitHub Pages automáticamente servirá los archivos desde la raíz
+
+**Nota importante:** El build automáticamente copia los archivos de `public/` a la raíz, por lo que GitHub Pages sirve desde `/` (raíz) y no desde `/public/`.
 
 ## Categorías Disponibles
 
