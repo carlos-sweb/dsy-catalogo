@@ -328,7 +328,7 @@ productos:
       - "Precio unitario: $400 por librito"
       - "Valor display: $10.000 (25 × $400)"
       - "Contenido: 50 papeles por librito"
-    imagen: "./assets/papel-fino-ronson.png"
+    imagen: "./assets/papel-fino-ronson-2.png"
     disponible: true
 
   # ========== ADHESIVOS ==========

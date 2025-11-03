@@ -7,7 +7,8 @@
     "build": "node src/build.js",
     "start": "node src/server.js",
     "dev": "npm run build && npm start",
-    "icons": "node src/generate-icons.js"
+    "icons": "node src/generate-icons.js",
+    "optimize": "bash optimize-images.sh"
   },
   "keywords": [
     "catalogo",
@@ -18,7 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "js-yaml": "^4.1.0"
-  },
-  "devDependencies": {}
+    "js-yaml": "^4.1.0",
+    "sharp": "^0.34.4"
+  }
 }
