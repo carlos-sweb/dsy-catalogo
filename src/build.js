@@ -570,7 +570,7 @@ const htmlTemplate = `<!DOCTYPE html>
                 container.offsetHeight;
 
                 // Calcular la altura real del contenido (incluyendo padding y un margen de seguridad)
-                const targetHeight = container.scrollHeight + 32; // +32px margen de seguridad para líneas largas
+                const targetHeight = container.scrollHeight + 50; // +50px margen de seguridad para líneas largas
 
                 // Establecer altura inicial en 0
                 container.style.height = '0px';

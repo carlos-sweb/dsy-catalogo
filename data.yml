@@ -40,50 +40,55 @@ categorias:
 productos:
   # ========== PLÁSTICOS - BOLSAS ==========
   - id: 1
-    nombre: "Bolsas"
-    descripcion: "Presentación estándar"
+    nombre: "Bolsa Camiseta Mini"
+    descripcion: "Tamaño compacto para compras pequeñas"
     precio: 650
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: 100 unidades"
-    imagen: "https://placehold.com/400x300?text=Bolsas"
+      - "Tamaño: 28 x 35 cm"
+      - "Tipo: Camiseta"
+      - "Ideal para compras pequeñas"
+    imagen: "https://placehold.com/400x300?text=Camiseta+Mini"
     disponible: true
 
   - id: 2
-    nombre: "Camisetas"
-    descripcion: "Bolsas tipo camiseta"
+    nombre: "Bolsa Camiseta Mediana"
+    descripcion: "Tamaño estándar para uso diario"
     precio: 750
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: 100 unidades"
+      - "Tamaño: 35 x 40 cm"
       - "Tipo: Camiseta"
-    imagen: "https://placehold.com/400x300?text=Camisetas"
+      - "Uso diario estándar"
+    imagen: "https://placehold.com/400x300?text=Camiseta+Mediana"
     disponible: true
 
   - id: 3
-    nombre: "Bolsas Premium"
-    descripcion: "Presentación grande"
+    nombre: "Bolsa Camiseta Grande"
+    descripcion: "Tamaño grande para mayor capacidad"
     precio: 1300
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: Unidad"
-      - "Calidad: Premium"
-    imagen: "https://placehold.com/400x300?text=Bolsas+Premium"
+      - "Tamaño: 40 x 50 cm"
+      - "Tipo: Camiseta"
+      - "Mayor capacidad de carga"
+    imagen: "https://placehold.com/400x300?text=Camiseta+Grande"
     disponible: true
 
   - id: 4
-    nombre: "Bolsas XL"
-    descripcion: "Tamaño extra grande"
+    nombre: "Bolsa Camiseta Jumbo"
+    descripcion: "Tamaño extra grande para cargas pesadas"
     precio: 2300
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: Unidad"
-      - "Tamaño: Extra grande"
-    imagen: "https://placehold.com/400x300?text=Bolsas+XL"
+      - "Tamaño: 50 x 60 cm"
+      - "Tipo: Camiseta"
+      - "Ideal para cargas pesadas y voluminosas"
+    imagen: "https://placehold.com/400x300?text=Camiseta+Jumbo"
     disponible: true
 
   - id: 5
@@ -123,27 +128,19 @@ productos:
     disponible: true
 
   - id: 8
-    nombre: "Bolsas Taco"
-    descripcion: "Tamaño pequeño especializado"
-    precio: 500
-    categoria: "plasticos"
-    subcategoria: "bolsas"
-    caracteristicas:
-      - "Cantidad: 100 unidades"
-      - "Tamaño: Pequeño"
-    imagen: "https://placehold.com/400x300?text=Bolsas+Taco"
-    disponible: true
-
-  - id: 9
-    nombre: "Manga"
-    descripcion: "Sistema tubular continuo"
+    nombre: "Bolsa Taco Manga"
+    descripcion: "Manga con 10 paquetes de 100 unidades"
     precio: 4500
+    precio_unitario: 500
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: 1.000 unidades"
-      - "Tipo: Tubular continuo"
-    imagen: "https://placehold.com/400x300?text=Manga"
+      - "Presentación: Manga de 10 paquetes"
+      - "Cada paquete: 100 unidades"
+      - "Precio por paquete: $500"
+      - "Valor manga completa: $4.500 (10 × $500)"
+      - "Total: 1.000 unidades por manga"
+    imagen: "https://placehold.com/400x300?text=Bolsa+Taco+Manga"
     disponible: true
 
   # ========== PLÁSTICOS - VASOS ==========
@@ -329,6 +326,21 @@ productos:
       - "Valor display: $10.000 (25 × $400)"
       - "Contenido: 50 papeles por librito"
     imagen: "./assets/papel-fino-ronson-2.png"
+    disponible: true
+
+  - id: 31
+    nombre: "Display Encendedor Lin"
+    descripcion: "Encendedor económico - 5 variedades de color"
+    precio: 2700
+    precio_unitario: 135
+    categoria: "tabaqueria"
+    caracteristicas:
+      - "Presentación: Display de 20 unidades"
+      - "Precio unitario: $135 por unidad"
+      - "Valor display: $2.700 (20 × $135)"
+      - "5 tonos de color disponibles"
+      - "Producto económico pero resistente"
+    imagen: "https://placehold.com/400x300?text=Encendedor+Lin"
     disponible: true
 
   # ========== ADHESIVOS ==========
