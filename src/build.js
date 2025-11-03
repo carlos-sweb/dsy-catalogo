@@ -64,7 +64,18 @@ function generarProductoHTML(producto, colorConfig) {
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">${producto.nombre}</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">${producto.descripcion}</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm ${colorConfig.text} hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 ${caracteristicasHTML}
                             </div>
 
@@ -245,6 +256,33 @@ const htmlTemplate = `<!DOCTYPE html>
 
         .search-fab.pulse {
             animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Animación suave para características */
+        .caracteristicas-container {
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        margin 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        .caracteristicas-container.show {
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+        }
+
+        /* Animación del chevron */
+        .chevron {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
@@ -497,6 +535,56 @@ const htmlTemplate = `<!DOCTYPE html>
             searchFab.style.pointerEvents = 'none';
             searchFab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
+    </script>
+
+    <!-- Toggle de características -->
+    <script>
+        function toggleCaracteristicas(event) {
+            const button = event.currentTarget;
+            const card = button.closest('.producto-card');
+            const container = card.querySelector('.caracteristicas-container');
+            const chevron = button.querySelector('.chevron');
+            const buttonText = button.querySelector('span');
+
+            // Toggle clase show para animación
+            const isShowing = container.classList.contains('show');
+
+            if (isShowing) {
+                // Primero establecer la altura actual para permitir transición
+                const currentHeight = container.scrollHeight;
+                container.style.height = currentHeight + 'px';
+
+                // Forzar reflow
+                container.offsetHeight;
+
+                // Ocultar con animación
+                container.style.height = '0px';
+                container.classList.remove('show');
+                chevron.style.transform = 'rotate(0deg)';
+                buttonText.textContent = 'Ver más';
+            } else {
+                // Primero agregar la clase para aplicar padding y margin
+                container.classList.add('show');
+
+                // Forzar reflow para que el navegador calcule la altura con padding
+                container.offsetHeight;
+
+                // Calcular la altura real del contenido (incluyendo padding y un margen de seguridad)
+                const targetHeight = container.scrollHeight + 32; // +32px margen de seguridad para líneas largas
+
+                // Establecer altura inicial en 0
+                container.style.height = '0px';
+
+                // Forzar otro reflow
+                requestAnimationFrame(() => {
+                    // Animar a la altura real
+                    container.style.height = targetHeight + 'px';
+                });
+
+                chevron.style.transform = 'rotate(180deg)';
+                buttonText.textContent = 'Ocultar';
+            }
+        }
     </script>
 
     <!-- Service Worker Registration -->

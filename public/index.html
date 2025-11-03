@@ -103,6 +103,33 @@
         .search-fab.pulse {
             animation: pulse 2s ease-in-out infinite;
         }
+
+        /* Animación suave para características */
+        .caracteristicas-container {
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        margin 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        .caracteristicas-container.show {
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+        }
+
+        /* Animación del chevron */
+        .chevron {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -152,7 +179,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Bolsas</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación estándar</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             </div>
 
@@ -175,7 +213,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Camisetas</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Bolsas tipo camiseta</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tipo: Camiseta</p>
                             </div>
@@ -199,7 +248,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Bolsas Premium</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación grande</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Calidad: Premium</p>
                             </div>
@@ -223,7 +283,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Bolsas XL</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Tamaño extra grande</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Extra grande</p>
                             </div>
@@ -247,7 +318,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Rollo Pull Pack</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Sistema de rollo continuo</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 700 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tipo: Rollo continuo</p>
                             </div>
@@ -271,7 +353,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Botillera</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Para bebidas y botellas</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Uso: Bebidas y botellas</p>
                             </div>
@@ -295,7 +388,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Bolsas Ensalada</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Para alimentos frescos</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Uso: Alimentos frescos</p>
                             </div>
@@ -319,7 +423,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Bolsas Taco</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Tamaño pequeño especializado</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Pequeño</p>
                             </div>
@@ -343,7 +458,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Manga</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Sistema tubular continuo</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-blue-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 1.000 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tipo: Tubular continuo</p>
                             </div>
@@ -376,7 +502,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Vaso Polietileno</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Económico y resistente</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-green-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Material: Polietileno</p>
                             </div>
@@ -400,7 +537,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Vaso Vinilo TM/TL</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Tamaño mediano/grande</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-green-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 100 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Material: Vinilo</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Mediano/Grande</p>
@@ -425,7 +573,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Vaso Pequeño</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación compacta</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-green-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 50 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Pequeño</p>
                             </div>
@@ -449,7 +608,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Vaso Premium</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Calidad superior</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-green-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 25 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Calidad: Premium</p>
                             </div>
@@ -484,7 +654,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 1</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación estándar</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x12</p>
                             </div>
 
@@ -507,7 +688,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 2</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Calidad premium</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x12</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Calidad: Premium</p>
                             </div>
@@ -531,7 +723,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 3</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Tamaño 750ml</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x14</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: 750ml</p>
                             </div>
@@ -555,7 +758,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 4</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación estándar</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 3 unidades</p>
                             </div>
 
@@ -578,7 +792,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 5</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Formato grande</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: 1 unidad</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Grande</p>
                             </div>
@@ -602,7 +827,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 6</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Tamaño mediano</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x13</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tamaño: Mediano</p>
                             </div>
@@ -626,7 +862,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 7</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Premium</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Calidad: Premium</p>
                             </div>
@@ -650,7 +897,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 8</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Económico</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Tipo: Económico</p>
                             </div>
@@ -674,7 +932,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 9</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Estándar</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             </div>
 
@@ -697,7 +966,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Producto Perfumería 10</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-purple-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Cantidad: Unidad</p>
                             </div>
 
@@ -730,7 +1010,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Encendedor Ronson ClearLite</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Encendedor premium - Display completo</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-red-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Presentación: Display de 20 unidades</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Precio unitario: $180</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Valor display: $3.600 (20 × $180)</p>
@@ -757,7 +1048,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Papel Fino Ronson</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Papelillos rolling - Caja de 25 libritos</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-red-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Presentación: Display de 25 libritos</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Precio unitario: $400 por librito</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Valor display: $10.000 (25 × $400)</p>
@@ -795,7 +1097,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Adhesivo Pequeño</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Presentación compacta</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-orange-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Medida: 50 metros</p>
                             </div>
 
@@ -818,7 +1131,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Adhesivo Mediano</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Rollo estándar</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-orange-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Medida: 100 metros</p>
                             </div>
 
@@ -841,7 +1165,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Adhesivo Pack</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Formato multipack</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-orange-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x12</p>
                             </div>
 
@@ -864,7 +1199,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Adhesivo Mini Pack</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Pack reducido</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-orange-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Formato: Pack x6</p>
                             </div>
 
@@ -887,7 +1233,18 @@
                             <h4 class="text-2xl font-bold text-gray-800 mb-3 leading-tight">Adhesivo Premium</h4>
                             <p class="text-lg text-gray-600 mb-5 leading-relaxed">Calidad superior</p>
 
-                            <div class="bg-gray-50 rounded-lg p-4 mb-5 space-y-2">
+                            <!-- Botón para mostrar/ocultar características -->
+                            <div class="flex justify-end mb-3">
+                                <button class="toggle-caracteristicas text-sm text-orange-600 hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
+                                    <span class="font-medium">Ver más</span>
+                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Características (ocultas por defecto) -->
+                            <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
                                 <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Presentación: Especial</p>
                             <p class="text-base text-gray-700 leading-relaxed"><span class="font-semibold text-lg">•</span> Calidad: Superior</p>
                             </div>
@@ -1129,6 +1486,56 @@
             searchFab.style.pointerEvents = 'none';
             searchFab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
+    </script>
+
+    <!-- Toggle de características -->
+    <script>
+        function toggleCaracteristicas(event) {
+            const button = event.currentTarget;
+            const card = button.closest('.producto-card');
+            const container = card.querySelector('.caracteristicas-container');
+            const chevron = button.querySelector('.chevron');
+            const buttonText = button.querySelector('span');
+
+            // Toggle clase show para animación
+            const isShowing = container.classList.contains('show');
+
+            if (isShowing) {
+                // Primero establecer la altura actual para permitir transición
+                const currentHeight = container.scrollHeight;
+                container.style.height = currentHeight + 'px';
+
+                // Forzar reflow
+                container.offsetHeight;
+
+                // Ocultar con animación
+                container.style.height = '0px';
+                container.classList.remove('show');
+                chevron.style.transform = 'rotate(0deg)';
+                buttonText.textContent = 'Ver más';
+            } else {
+                // Primero agregar la clase para aplicar padding y margin
+                container.classList.add('show');
+
+                // Forzar reflow para que el navegador calcule la altura con padding
+                container.offsetHeight;
+
+                // Calcular la altura real del contenido (incluyendo padding y un margen de seguridad)
+                const targetHeight = container.scrollHeight + 32; // +32px margen de seguridad para líneas largas
+
+                // Establecer altura inicial en 0
+                container.style.height = '0px';
+
+                // Forzar otro reflow
+                requestAnimationFrame(() => {
+                    // Animar a la altura real
+                    container.style.height = targetHeight + 'px';
+                });
+
+                chevron.style.transform = 'rotate(180deg)';
+                buttonText.textContent = 'Ocultar';
+            }
+        }
     </script>
 
     <!-- Service Worker Registration -->
