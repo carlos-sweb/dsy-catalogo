@@ -149,6 +149,25 @@ const htmlTemplate = `<!DOCTYPE html>
     <title>${data.configuracion.nombre_tienda}</title>
     <meta name="description" content="${data.configuracion.descripcion_tienda}">
 
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DSY Catálogo">
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="72x72" href="./icons/icon-72x72.svg">
+    <link rel="apple-touch-icon" sizes="96x96" href="./icons/icon-96x96.svg">
+    <link rel="apple-touch-icon" sizes="128x128" href="./icons/icon-128x128.svg">
+    <link rel="apple-touch-icon" sizes="144x144" href="./icons/icon-144x144.svg">
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152x152.svg">
+    <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192x192.svg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./icons/icon-72x72.svg">
+
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -387,6 +406,60 @@ const htmlTemplate = `<!DOCTYPE html>
         // Montar el componente cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
             m.mount(document.getElementById('search-container'), SearchComponent);
+        });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado:', registration.scope);
+
+                        // Verificar actualizaciones
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            console.log('🔄 Nueva versión del Service Worker detectada');
+
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('✨ Nueva versión disponible. Recarga para actualizar.');
+                                    // Opcional: Mostrar notificación al usuario
+                                    if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error al registrar Service Worker:', error);
+                    });
+            });
+        } else {
+            console.log('⚠️ Service Worker no soportado en este navegador');
+        }
+
+        // Detectar si la app está instalada
+        window.addEventListener('beforeinstallprompt', (event) => {
+            // Prevenir el prompt automático
+            event.preventDefault();
+
+            // Guardar el evento para mostrarlo más tarde
+            window.deferredPrompt = event;
+
+            console.log('📱 La aplicación puede ser instalada');
+
+            // Opcional: Mostrar botón de instalación personalizado
+            // Aquí podrías mostrar un banner o botón para instalar la PWA
+        });
+
+        // Detectar cuando la app ha sido instalada
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ PWA instalada correctamente');
+            window.deferredPrompt = null;
         });
     </script>
 

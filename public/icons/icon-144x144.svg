@@ -1,0 +1,35 @@
+<svg width="144" height="144" viewBox="0 0 144 144" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo degradado azul -->
+  <defs>
+    <linearGradient id="grad144" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo con bordes redondeados -->
+  <rect width="144" height="144" rx="21.599999999999998" fill="url(#grad144)"/>
+
+  <!-- Icono de paquete/caja -->
+  <g transform="translate(28.8, 28.8)">
+    <!-- Caja -->
+    <rect x="14.4" y="21.599999999999998" width="57.6" height="50.4"
+          fill="none" stroke="white" stroke-width="5.76" rx="2.88"/>
+
+    <!-- Cinta horizontal -->
+    <line x1="14.4" y1="46.800000000000004" x2="72" y2="46.800000000000004"
+          stroke="white" stroke-width="7.2" stroke-linecap="round"/>
+
+    <!-- Cinta vertical -->
+    <line x1="43.199999999999996" y1="21.599999999999998" x2="43.199999999999996" y2="72"
+          stroke="white" stroke-width="7.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Texto DSY (solo en iconos grandes) -->
+  <text x="72" y="122.39999999999999"
+        font-family="Arial, sans-serif"
+        font-size="25.919999999999998"
+        font-weight="bold"
+        fill="white"
+        text-anchor="middle">DSY</text>
+</svg>

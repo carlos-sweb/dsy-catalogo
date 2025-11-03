@@ -2,6 +2,28 @@
 
 Sitio web estático para mostrar productos de paquetería y accesorios. Generado dinámicamente desde datos YAML usando Node.js.
 
+## 🌐 Sitio en Vivo
+
+**[Ver Catálogo en GitHub Pages](https://carlos-sweb.github.io/dsy-catalogo/public/)**
+
+> 📌 El sitio se actualiza automáticamente cuando se hace push a la rama `main`
+
+## 📱 Progressive Web App (PWA)
+
+Este catálogo es una **PWA completa** que puede instalarse como una aplicación nativa:
+- ✅ **Instalable** en Android, iOS y Desktop
+- ✅ **Funciona offline** sin conexión a internet
+- ✅ **Ícono en pantalla de inicio** como app nativa
+- ✅ **Actualizaciones automáticas** del contenido
+
+**📖 [Ver Guía Completa de PWA](./PWA-GUIDE.md)**
+
+### Instalación Rápida
+
+**Android/Chrome:** Menú → "Instalar app" o banner automático
+**iOS/Safari:** Compartir → "Agregar a pantalla de inicio"
+**Desktop:** Ícono ⊕ en barra de direcciones
+
 ## Estructura del Proyecto
 
 ```
@@ -69,12 +91,24 @@ imagen: "producto.jpg"  # Archivo en public/producto.jpg
 
 ## GitHub Pages
 
-Para desplegar en GitHub Pages:
+**URL del sitio:** https://carlos-sweb.github.io/dsy-catalogo/public/
+
+Para configurar/actualizar GitHub Pages:
 
 1. Asegúrate de que los cambios estén en la rama `main`
-2. Ve a Settings > Pages en tu repositorio de GitHub
-3. Selecciona la carpeta `public/` como fuente
-4. GitHub Pages automáticamente servirá el contenido de `public/`
+2. Ejecuta `npm run build` para generar el HTML actualizado
+3. Haz commit y push:
+   ```bash
+   git add .
+   git commit -m "Actualizar catálogo de productos"
+   git push origin main
+   ```
+4. Ve a Settings > Pages en tu repositorio de GitHub
+5. Configura:
+   - **Source:** Deploy from a branch
+   - **Branch:** main
+   - **Folder:** / (root)
+6. GitHub Pages automáticamente servirá el contenido de `public/`
 
 ## Categorías Disponibles
 
