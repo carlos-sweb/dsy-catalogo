@@ -46,6 +46,6 @@ export default defineConfig({
 
   // Optimización de dependencias
   optimizeDeps: {
-    include: ['lodash', 'mithril', 'lucide']
+    include: ['lodash.debounce', 'mithril', 'lucide-static']
   }
 });

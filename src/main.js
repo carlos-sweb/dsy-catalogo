@@ -1,5 +1,5 @@
 // Importar dependencias
-import _ from 'lodash';
+import debounce from 'lodash.debounce';
 import m from 'mithril';
 import data from '../data.yml';
 
@@ -10,7 +10,6 @@ import chevronDownIcon from 'lucide-static/icons/chevron-down.svg?raw';
 import shareIcon from 'lucide-static/icons/share-2.svg?raw';
 
 // Hacer disponibles globalmente para uso en el HTML
-window._ = _;
 window.m = m;
 window.lucideIcons = {
   search: searchIcon,
@@ -166,7 +165,7 @@ const SearchComponent = {
         this.visibleProducts = this.totalProducts;
 
         // Crear función debounced con 300ms de delay
-        this.debouncedFilter = _.debounce((term) => {
+        this.debouncedFilter = debounce((term) => {
             this.applyFilter(term);
             m.redraw();
         }, 300);
