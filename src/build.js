@@ -181,11 +181,6 @@ const htmlTemplate = `<!DOCTYPE html>
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="./icons/icon-72x72.svg">
 
-    <!-- Google Fonts - Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- Tailwind CSS optimizado -->
     <link href="./styles.css" rel="stylesheet">
 
@@ -738,12 +733,20 @@ function copyFilesToRoot() {
     console.log(`✓ manifest.json copiado a la raíz`);
   }
 
-  // Copiar service-worker.js a la raíz
+  // Copiar service-worker.js a la raíz con versionado automático
   const SW_SRC = path.join(OUTPUT_DIR, 'service-worker.js');
   const SW_DEST = path.join(ROOT_DIR, 'service-worker.js');
   if (fs.existsSync(SW_SRC)) {
-    fs.copyFileSync(SW_SRC, SW_DEST);
-    console.log(`✓ service-worker.js copiado a la raíz`);
+    // Generar versión basada en timestamp
+    const cacheVersion = `v${Date.now()}`;
+
+    // Leer service worker y reemplazar placeholder
+    let swContent = fs.readFileSync(SW_SRC, 'utf8');
+    swContent = swContent.replace(/%%CACHE_VERSION%%/g, cacheVersion);
+
+    // Escribir con versión
+    fs.writeFileSync(SW_DEST, swContent, 'utf8');
+    console.log(`✓ service-worker.js copiado a la raíz (${cacheVersion})`);
   }
 
   // Crear symlink o copiar carpeta icons si no existe en la raíz
@@ -770,6 +773,14 @@ function copyFilesToRoot() {
   if (fs.existsSync(CSS_SRC)) {
     fs.copyFileSync(CSS_SRC, CSS_DEST);
     console.log(`✓ styles.css copiado a la raíz`);
+  }
+
+  // Copiar carpeta fonts a la raíz
+  const FONTS_SRC = path.join(OUTPUT_DIR, 'fonts');
+  const FONTS_DEST = path.join(ROOT_DIR, 'fonts');
+  if (fs.existsSync(FONTS_SRC)) {
+    fs.cpSync(FONTS_SRC, FONTS_DEST, { recursive: true });
+    console.log(`✓ Carpeta fonts/ copiada a la raíz`);
   }
 
   console.log('✅ Build completado exitosamente!');
