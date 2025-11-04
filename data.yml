@@ -9,6 +9,16 @@ configuracion:
   año: 2025
   nota_legal: "Todos los precios están sujetos a cambios sin previo aviso"
 
+medios_de_pago:
+  - id: "scotiabank"
+    banco: "Banco Scotiabank"
+    tipo_cuenta: "Corriente"
+    numero_cuenta: "123629374620002727"
+    razon_social: "Bazar y Paquetería Daisy Montenegro E.I.R.L"
+    rut: "16.546.789-5"
+    color: "blue"
+    nota: "Por favor, envíe el comprobante de transferencia para confirmar su pedido"
+
 categorias:
   - id: "plasticos"
     nombre: "Plásticos"
