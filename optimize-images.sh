@@ -9,7 +9,7 @@ echo ""
 MAX_SIZE="1200x1200"
 QUALITY=85
 BACKUP_DIR="assets-original"
-ASSETS_DIR="assets"
+ASSETS_DIR="static/assets"
 
 # Crear directorio de backup si no existe
 if [ ! -d "$BACKUP_DIR" ]; then
@@ -38,7 +38,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 # Procesar cada imagen en el directorio assets
-for img in "$ASSETS_DIR"/*.{jpg,jpeg,png,JPG,JPEG,PNG} 2>/dev/null; do
+find "$ASSETS_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) 2>/dev/null | while read -r img; do
     # Verificar si el archivo existe
     if [ ! -f "$img" ]; then
         continue
@@ -122,12 +122,8 @@ else
     echo "Tamaño total optimizado: ${total_optimized_mb}MB"
     echo "Ahorro total: ${total_savings_mb}MB (${total_savings_percent}%)"
     echo ""
-
-    # Copiar a public/assets
-    echo "📋 Copiando imágenes optimizadas a public/assets/..."
-    mkdir -p public/assets
-    cp "$ASSETS_DIR"/*.{jpg,jpeg,png,JPG,JPEG,PNG} public/assets/ 2>/dev/null
-    echo "✓ Imágenes copiadas"
+    echo "✓ Las imágenes optimizadas están en $ASSETS_DIR"
+    echo "  Vite las copiará a public/ durante el build"
 fi
 
 echo ""
