@@ -301,7 +301,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Montar componente de búsqueda
     m.mount(document.getElementById('search-container'), SearchComponent);
+
+    // Inicializar icono del FAB
+    const searchFabIcon = document.getElementById('search-fab-icon');
+    if (searchFabIcon && window.lucideIcons) {
+        searchFabIcon.innerHTML = window.lucideIcons.search;
+    }
+
+    // Botón flotante de búsqueda
+    const searchFab = document.getElementById('search-fab');
+    const searchBar = document.getElementById('search-bar');
+    const searchInput = document.getElementById('search-input');
+
+    if (searchFab) {
+        searchFab.addEventListener('click', function() {
+            searchBar.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            setTimeout(() => {
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }, 500);
+        });
+
+        // Mostrar/ocultar el FAB según el scroll
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const searchBarBottom = searchBar.offsetTop + searchBar.offsetHeight;
+
+            if (scrollTop > searchBarBottom + 100) {
+                searchFab.style.opacity = '1';
+                searchFab.style.transform = 'scale(1)';
+                searchFab.style.pointerEvents = 'auto';
+            } else {
+                searchFab.style.opacity = '0';
+                searchFab.style.transform = 'scale(0)';
+                searchFab.style.pointerEvents = 'none';
+            }
+        }, { passive: true });
+
+        // Estado inicial: ocultar el FAB
+        searchFab.style.opacity = '0';
+        searchFab.style.transform = 'scale(0)';
+        searchFab.style.pointerEvents = 'none';
+        searchFab.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    }
 });
+
+// Toggle de características
+window.toggleCaracteristicas = function(event) {
+    const button = event.currentTarget;
+    const card = button.closest('.producto-card');
+    const container = card.querySelector('.caracteristicas-container');
+    const chevron = button.querySelector('.chevron');
+    const buttonText = button.querySelector('span');
+
+    const isShowing = container.classList.contains('show');
+
+    if (isShowing) {
+        const currentHeight = container.scrollHeight;
+        container.style.height = currentHeight + 'px';
+        container.offsetHeight;
+        container.style.height = '0px';
+        container.classList.remove('show');
+        chevron.style.transform = 'rotate(0deg)';
+        buttonText.textContent = 'Ver más';
+    } else {
+        container.classList.add('show');
+        container.offsetHeight;
+        const targetHeight = container.scrollHeight + 50;
+        container.style.height = '0px';
+        requestAnimationFrame(() => {
+            container.style.height = targetHeight + 'px';
+        });
+        chevron.style.transform = 'rotate(180deg)';
+        buttonText.textContent = 'Ocultar';
+    }
+};
 
 // Exportar para uso global
 window.SearchComponent = SearchComponent;
