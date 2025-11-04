@@ -2,11 +2,11 @@
 # Datos de productos extraídos del sitio web
 
 configuracion:
-  nombre_tienda: "Catálogo Oficial Paquetería"
-  descripcion_tienda: "Productos de calidad para empaques y accesorios"
-  moneda: "MXN"
+  nombre_tienda: "Catálogo"
+  descripcion_tienda: "Productos de calidad para su negocio"
+  moneda: "CLP"
   simbolo_moneda: "$"
-  año: 2024
+  año: 2025
   nota_legal: "Todos los precios están sujetos a cambios sin previo aviso"
 
 categorias:
@@ -116,15 +116,16 @@ productos:
     disponible: true
 
   - id: 7
-    nombre: "Bolsas Ensalada"
-    descripcion: "Para alimentos frescos"
+    nombre: "Bolsa para Ensaladas"
+    descripcion: "Ideal para alimentos frescos"
     precio: 900
     categoria: "plasticos"
     subcategoria: "bolsas"
     caracteristicas:
-      - "Cantidad: 100 unidades"
-      - "Uso: Alimentos frescos"
-    imagen: "https://placehold.com/400x300?text=Bolsas+Ensalada"
+      - "Tamaño: 15 x 20 cm"
+      - "Cantidad: 100 unidades por paquete"
+      - "Ideal para ensaladas y alimentos frescos"
+    imagen: "https://placehold.com/400x300?text=Bolsa+Ensaladas"
     disponible: true
 
   - id: 8
@@ -145,7 +146,7 @@ productos:
 
   # ========== PLÁSTICOS - VASOS ==========
   - id: 10
-    nombre: "Vaso Polietileno"
+    nombre: "Vaso 300cc"
     descripcion: "Económico y resistente"
     precio: 600
     categoria: "plasticos"
@@ -157,7 +158,7 @@ productos:
     disponible: true
 
   - id: 11
-    nombre: "Vaso Vinilo TM/TL"
+    nombre: "Guante Vinilo TM/TL"
     descripcion: "Tamaño mediano/grande"
     precio: 3900
     categoria: "plasticos"
@@ -170,14 +171,14 @@ productos:
     disponible: true
 
   - id: 12
-    nombre: "Vaso Pequeño"
+    nombre: "Vaso 500cc"
     descripcion: "Presentación compacta"
     precio: 1300
     categoria: "plasticos"
     subcategoria: "vasos"
     caracteristicas:
       - "Cantidad: 50 unidades"
-      - "Tamaño: Pequeño"
+      - "Tamaño: Grande"
     imagen: "https://placehold.com/400x300?text=Vaso+Pequeno"
     disponible: true
 
@@ -195,17 +196,20 @@ productos:
 
   # ========== PERFUMERÍA ==========
   - id: 14
-    nombre: "Producto Perfumería 1"
-    descripcion: "Presentación estándar"
-    precio: 500
+    nombre: "Maquina de afeitar Wilkinson"
+    descripcion: "Tira con 12 Unidades"
+    precio: 6000
+    precio_unitario: 500
     categoria: "perfumeria"
     caracteristicas:
       - "Formato: Pack x12"
+      - "2 Hoja en 1 cabezal"
+      - "Desechable"
     imagen: "https://placehold.com/400x300?text=Perfumeria+1"
     disponible: true
 
   - id: 15
-    nombre: "Producto Perfumería 2"
+    nombre: "Maquina de afeitar "
     descripcion: "Calidad premium"
     precio: 880
     categoria: "perfumeria"

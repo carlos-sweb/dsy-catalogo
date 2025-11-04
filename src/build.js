@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+const { minify } = require('html-minifier-terser');
+const { execSync } = require('child_process');
 
 // Rutas
 const DATA_FILE = path.join(__dirname, '..', 'data.yml');
@@ -184,7 +186,8 @@ const htmlTemplate = `<!DOCTYPE html>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS optimizado -->
+    <link href="./styles.css" rel="stylesheet">
 
     <!-- Lodash -->
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
@@ -650,54 +653,132 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-// Escribir archivo HTML
-console.log('🔨 Generando HTML estático...');
-fs.writeFileSync(OUTPUT_FILE, htmlTemplate, 'utf8');
+// Función para generar CSS optimizado con Tailwind
+function buildTailwindCSS() {
+  console.log('🎨 Generando CSS optimizado con Tailwind...');
 
-console.log(`✓ Archivo generado: ${OUTPUT_FILE}`);
+  const INPUT_CSS = path.join(__dirname, 'input.css');
+  const OUTPUT_CSS = path.join(OUTPUT_DIR, 'styles.css');
 
-// Copiar archivos a la raíz para GitHub Pages
-const ROOT_DIR = path.join(__dirname, '..');
-const ROOT_INDEX = path.join(ROOT_DIR, 'index.html');
+  try {
+    // Ejecutar Tailwind CLI
+    execSync(
+      `npx tailwindcss -i ${INPUT_CSS} -o ${OUTPUT_CSS} --minify`,
+      { stdio: 'pipe' }
+    );
 
-console.log('📋 Copiando archivos a la raíz para GitHub Pages...');
-
-// Copiar index.html a la raíz
-fs.copyFileSync(OUTPUT_FILE, ROOT_INDEX);
-console.log(`✓ index.html copiado a la raíz`);
-
-// Copiar manifest.json a la raíz
-const MANIFEST_SRC = path.join(OUTPUT_DIR, 'manifest.json');
-const MANIFEST_DEST = path.join(ROOT_DIR, 'manifest.json');
-if (fs.existsSync(MANIFEST_SRC)) {
-  fs.copyFileSync(MANIFEST_SRC, MANIFEST_DEST);
-  console.log(`✓ manifest.json copiado a la raíz`);
+    // Verificar tamaño del CSS generado
+    const cssSize = fs.statSync(OUTPUT_CSS).size;
+    console.log(`✓ CSS generado: ${OUTPUT_CSS}`);
+    console.log(`✓ Tamaño CSS optimizado: ${(cssSize / 1024).toFixed(2)}KB`);
+  } catch (error) {
+    console.error('❌ Error al generar CSS:', error.message);
+    throw error;
+  }
 }
 
-// Copiar service-worker.js a la raíz
-const SW_SRC = path.join(OUTPUT_DIR, 'service-worker.js');
-const SW_DEST = path.join(ROOT_DIR, 'service-worker.js');
-if (fs.existsSync(SW_SRC)) {
-  fs.copyFileSync(SW_SRC, SW_DEST);
-  console.log(`✓ service-worker.js copiado a la raíz`);
+// Función async principal para manejar la minificación
+async function buildHTML() {
+  console.log('🔨 Generando HTML estático...');
+
+  // Opciones de minificación
+  const minifyOptions = {
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    useShortDoctype: true,
+    minifyCSS: true,
+    minifyJS: true
+  };
+
+  try {
+    // Minificar HTML (async)
+    const minifiedHTML = await minify(htmlTemplate, minifyOptions);
+
+    // Escribir HTML minificado
+    fs.writeFileSync(OUTPUT_FILE, minifiedHTML, 'utf8');
+
+    // Calcular ahorro
+    const originalSize = Buffer.byteLength(htmlTemplate, 'utf8');
+    const minifiedSize = Buffer.byteLength(minifiedHTML, 'utf8');
+    const savings = originalSize - minifiedSize;
+    const savingsPercent = ((savings / originalSize) * 100).toFixed(1);
+
+    console.log(`✓ Archivo generado: ${OUTPUT_FILE}`);
+    console.log(`✓ Minificación: ${(originalSize / 1024).toFixed(2)}KB → ${(minifiedSize / 1024).toFixed(2)}KB (${savingsPercent}% ahorro)`);
+  } catch (error) {
+    console.error('❌ Error al minificar HTML:', error.message);
+    // Escribir HTML sin minificar en caso de error
+    fs.writeFileSync(OUTPUT_FILE, htmlTemplate, 'utf8');
+    console.log(`✓ Archivo generado (sin minificar): ${OUTPUT_FILE}`);
+  }
+
+  copyFilesToRoot();
 }
 
-// Crear symlink o copiar carpeta icons si no existe en la raíz
-const ICONS_SRC = path.join(OUTPUT_DIR, 'icons');
-const ICONS_DEST = path.join(ROOT_DIR, 'icons');
-if (fs.existsSync(ICONS_SRC) && !fs.existsSync(ICONS_DEST)) {
-  // Copiar directorio recursivamente
-  fs.cpSync(ICONS_SRC, ICONS_DEST, { recursive: true });
-  console.log(`✓ Carpeta icons/ copiada a la raíz`);
+// Función para copiar archivos a la raíz
+function copyFilesToRoot() {
+  // Copiar archivos a la raíz para GitHub Pages
+  const ROOT_DIR = path.join(__dirname, '..');
+  const ROOT_INDEX = path.join(ROOT_DIR, 'index.html');
+
+  console.log('📋 Copiando archivos a la raíz para GitHub Pages...');
+
+  // Copiar index.html a la raíz
+  fs.copyFileSync(OUTPUT_FILE, ROOT_INDEX);
+  console.log(`✓ index.html copiado a la raíz`);
+
+  // Copiar manifest.json a la raíz
+  const MANIFEST_SRC = path.join(OUTPUT_DIR, 'manifest.json');
+  const MANIFEST_DEST = path.join(ROOT_DIR, 'manifest.json');
+  if (fs.existsSync(MANIFEST_SRC)) {
+    fs.copyFileSync(MANIFEST_SRC, MANIFEST_DEST);
+    console.log(`✓ manifest.json copiado a la raíz`);
+  }
+
+  // Copiar service-worker.js a la raíz
+  const SW_SRC = path.join(OUTPUT_DIR, 'service-worker.js');
+  const SW_DEST = path.join(ROOT_DIR, 'service-worker.js');
+  if (fs.existsSync(SW_SRC)) {
+    fs.copyFileSync(SW_SRC, SW_DEST);
+    console.log(`✓ service-worker.js copiado a la raíz`);
+  }
+
+  // Crear symlink o copiar carpeta icons si no existe en la raíz
+  const ICONS_SRC = path.join(OUTPUT_DIR, 'icons');
+  const ICONS_DEST = path.join(ROOT_DIR, 'icons');
+  if (fs.existsSync(ICONS_SRC) && !fs.existsSync(ICONS_DEST)) {
+    // Copiar directorio recursivamente
+    fs.cpSync(ICONS_SRC, ICONS_DEST, { recursive: true });
+    console.log(`✓ Carpeta icons/ copiada a la raíz`);
+  }
+
+  // Copiar carpeta assets a la raíz (siempre sincronizar)
+  const ASSETS_SRC = path.join(OUTPUT_DIR, 'assets');
+  const ASSETS_DEST = path.join(ROOT_DIR, 'assets');
+  if (fs.existsSync(ASSETS_SRC)) {
+    // Copiar directorio recursivamente (sobrescribir si existe)
+    fs.cpSync(ASSETS_SRC, ASSETS_DEST, { recursive: true });
+    console.log(`✓ Carpeta assets/ copiada a la raíz`);
+  }
+
+  // Copiar styles.css a la raíz
+  const CSS_SRC = path.join(OUTPUT_DIR, 'styles.css');
+  const CSS_DEST = path.join(ROOT_DIR, 'styles.css');
+  if (fs.existsSync(CSS_SRC)) {
+    fs.copyFileSync(CSS_SRC, CSS_DEST);
+    console.log(`✓ styles.css copiado a la raíz`);
+  }
+
+  console.log('✅ Build completado exitosamente!');
 }
 
-// Copiar carpeta assets a la raíz (siempre sincronizar)
-const ASSETS_SRC = path.join(OUTPUT_DIR, 'assets');
-const ASSETS_DEST = path.join(ROOT_DIR, 'assets');
-if (fs.existsSync(ASSETS_SRC)) {
-  // Copiar directorio recursivamente (sobrescribir si existe)
-  fs.cpSync(ASSETS_SRC, ASSETS_DEST, { recursive: true });
-  console.log(`✓ Carpeta assets/ copiada a la raíz`);
+// Ejecutar el build
+async function build() {
+  buildTailwindCSS();
+  await buildHTML();
 }
 
-console.log('✅ Build completado exitosamente!');
+build();
