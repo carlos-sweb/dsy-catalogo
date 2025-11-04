@@ -4,6 +4,8 @@ import ViteYaml from '@modyfi/vite-plugin-yaml';
 
 export default defineConfig({
   plugins: [ViteYaml()],
+  // Base path para GitHub Pages
+  base: '/dsy-catalogo/',
   // Carpeta de assets estáticos
   publicDir: 'static',
 
