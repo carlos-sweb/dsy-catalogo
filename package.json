@@ -21,7 +21,7 @@
   "dependencies": {
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "lucide": "^0.552.0",
+    "lucide-static": "^0.552.0",
     "mithril": "^2.3.7",
     "sharp": "^0.34.4"
   },

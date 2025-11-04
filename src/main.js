@@ -1,14 +1,23 @@
 // Importar dependencias
 import _ from 'lodash';
 import m from 'mithril';
-import { createIcons, Search, X, ChevronDown } from 'lucide';
 import data from '../data.yml';
+
+// Importar iconos SVG de lucide-static
+import searchIcon from 'lucide-static/icons/search.svg?raw';
+import xIcon from 'lucide-static/icons/x.svg?raw';
+import chevronDownIcon from 'lucide-static/icons/chevron-down.svg?raw';
+import shareIcon from 'lucide-static/icons/share-2.svg?raw';
 
 // Hacer disponibles globalmente para uso en el HTML
 window._ = _;
 window.m = m;
-window.createIcons = createIcons;
-window.lucideIcons = { Search, X, ChevronDown };
+window.lucideIcons = {
+  search: searchIcon,
+  x: xIcon,
+  chevronDown: chevronDownIcon,
+  share: shareIcon
+};
 
 // Colores por categoría
 const colores = {
@@ -55,7 +64,7 @@ function generarProductoHTML(producto, colorConfig) {
                             <div class="flex justify-end mb-3">
                                 <button class="toggle-caracteristicas text-sm ${colorConfig.text} hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
                                     <span class="font-medium">Ver más</span>
-                                    <i data-lucide="chevron-down" class="chevron w-4 h-4 transform transition-transform"></i>
+                                    <span data-icon="chevron-down" class="chevron w-4 h-4 transform transition-transform inline-block"></span>
                                 </button>
                             </div>
                             <div class="caracteristicas-container bg-gray-50 rounded-lg space-y-2">
@@ -139,8 +148,10 @@ function actualizarContenido() {
   const mainContent = document.getElementById('main-content');
   mainContent.innerHTML = generarCategoriasHTML();
 
-  // Inicializar iconos de Lucide
-  createIcons();
+  // Inicializar iconos de chevron-down en las tarjetas de productos
+  document.querySelectorAll('[data-icon="chevron-down"]').forEach(el => {
+    el.innerHTML = window.lucideIcons.chevronDown;
+  });
 }
 
 // Componente de búsqueda
@@ -245,17 +256,19 @@ const SearchComponent = {
                             onclick: () => this.clearSearch(),
                             title: 'Limpiar búsqueda (Esc)'
                         }, [
-                            m('i', {
-                                'data-lucide': 'x',
-                                class: 'w-6 h-6',
-                                oncreate: () => createIcons({ icons: { X } })
+                            m('span', {
+                                class: 'w-6 h-6 inline-block',
+                                oncreate: (vnode) => {
+                                    vnode.dom.innerHTML = window.lucideIcons.x;
+                                }
                             })
                         ])
                     : null,
-                    m('i', {
-                        'data-lucide': 'search',
-                        class: 'w-7 h-7 text-gray-400',
-                        oncreate: () => createIcons({ icons: { Search } })
+                    m('span', {
+                        class: 'w-7 h-7 text-gray-400 inline-block',
+                        oncreate: (vnode) => {
+                            vnode.dom.innerHTML = window.lucideIcons.search;
+                        }
                     })
                 ])
             ]),

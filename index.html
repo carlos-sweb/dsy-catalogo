@@ -148,7 +148,7 @@
 
     <!-- Botón flotante de búsqueda -->
     <button id="search-fab" class="search-fab" aria-label="Buscar productos" title="Buscar productos">
-        <i data-lucide="search"></i>
+        <span id="search-fab-icon" class="w-7 h-7 inline-block"></span>
     </button>
 
     <!-- Footer -->
@@ -167,12 +167,11 @@
 
     <!-- Scripts adicionales -->
     <script type="module">
-        import { createIcons } from 'lucide';
-
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar iconos de Lucide
-            if (window.createIcons) {
-                window.createIcons();
+            // Inicializar icono del FAB
+            const searchFabIcon = document.getElementById('search-fab-icon');
+            if (searchFabIcon && window.lucideIcons) {
+                searchFabIcon.innerHTML = window.lucideIcons.search;
             }
 
             // Botón flotante de búsqueda

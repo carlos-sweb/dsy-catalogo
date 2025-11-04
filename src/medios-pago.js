@@ -1,6 +1,19 @@
 // Importar dependencias
-import { createIcons, Copy, Share2, ArrowLeft, Check } from 'lucide';
 import data from '../data.yml';
+
+// Importar iconos SVG de lucide-static
+import copyIcon from 'lucide-static/icons/copy.svg?raw';
+import shareIcon from 'lucide-static/icons/share-2.svg?raw';
+import arrowLeftIcon from 'lucide-static/icons/arrow-left.svg?raw';
+import checkIcon from 'lucide-static/icons/check.svg?raw';
+
+// Hacer disponibles globalmente
+window.lucideIcons = {
+  copy: copyIcon,
+  share: shareIcon,
+  arrowLeft: arrowLeftIcon,
+  check: checkIcon
+};
 
 // Colores por categoría
 const colores = {
@@ -28,7 +41,7 @@ function generarMediosDePagoHTML() {
                         class="copy-btn p-2 hover:bg-white/20 rounded-lg transition-colors"
                         title="Copiar información de la cuenta"
                         aria-label="Copiar información de la cuenta">
-                    <i data-lucide="copy" class="h-6 w-6 text-white"></i>
+                    <span data-icon="copy" class="h-6 w-6 text-white inline-block"></span>
                 </button>
             </div>
 
@@ -62,7 +75,7 @@ function generarMediosDePagoHTML() {
                         class="share-btn ml-4 p-3 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-2"
                         title="Compartir información de la cuenta"
                         aria-label="Compartir información de la cuenta">
-                    <i data-lucide="share-2" class="h-6 w-6 text-blue-600"></i>
+                    <span data-icon="share" class="h-6 w-6 text-blue-600 inline-block"></span>
                 </button>
             </div>
         </div>
@@ -91,14 +104,19 @@ function actualizarContenido() {
   volverBtn.className = 'mt-8 text-center';
   volverBtn.innerHTML = `
     <a href="./index.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors shadow-md hover:shadow-lg">
-      <i data-lucide="arrow-left" class="h-5 w-5"></i>
+      <span data-icon="arrowLeft" class="h-5 w-5 inline-block"></span>
       Volver al catálogo
     </a>
   `;
   container.appendChild(volverBtn);
 
-  // Inicializar iconos de Lucide
-  createIcons();
+  // Inicializar iconos SVG
+  document.querySelectorAll('[data-icon]').forEach(el => {
+    const iconName = el.getAttribute('data-icon');
+    if (window.lucideIcons && window.lucideIcons[iconName]) {
+      el.innerHTML = window.lucideIcons[iconName];
+    }
+  });
 }
 
 // Función para copiar información de la cuenta
@@ -114,17 +132,17 @@ RUT: ${cuenta.rut}`;
 
   navigator.clipboard.writeText(texto).then(() => {
     const btn = event.currentTarget;
-    const icon = btn.querySelector('i');
+    const icon = btn.querySelector('[data-icon]');
 
-    icon.setAttribute('data-lucide', 'check');
-    createIcons();
-    btn.classList.add('pulse-success');
+    if (icon && window.lucideIcons) {
+      icon.innerHTML = window.lucideIcons.check;
+      btn.classList.add('pulse-success');
 
-    setTimeout(() => {
-      icon.setAttribute('data-lucide', 'copy');
-      createIcons();
-      btn.classList.remove('pulse-success');
-    }, 2000);
+      setTimeout(() => {
+        icon.innerHTML = window.lucideIcons.copy;
+        btn.classList.remove('pulse-success');
+      }, 2000);
+    }
   }).catch(err => {
     console.error('Error al copiar:', err);
     alert('No se pudo copiar la información');
