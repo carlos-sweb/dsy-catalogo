@@ -9,12 +9,12 @@ const CACHE_FONTS = `fonts-${CACHE_VERSION}`;
 const CACHE_DYNAMIC = `dynamic-${CACHE_VERSION}`;
 
 // Recursos críticos para pre-cachear (offline-first)
+// Los archivos JS y CSS con hash se cachearán dinámicamente
 const STATIC_ASSETS = [
   './',
   './index.html',
   './medios-de-pago.html',
   './manifest.json',
-  './styles.css',
   // Fonts
   './fonts/poppins-300.woff2',
   './fonts/poppins-400.woff2',
@@ -28,9 +28,7 @@ const STATIC_ASSETS = [
   './icons/icon-144x144.svg',
   './icons/icon-152x152.svg',
   './icons/icon-192x192.svg',
-  './icons/icon-512x512.svg',
-  // JavaScript bundle
-  './bundle.js'
+  './icons/icon-512x512.svg'
 ];
 
 // ========== INSTALACIÓN ==========
@@ -39,16 +37,32 @@ self.addEventListener('install', (event) => {
 
   event.waitUntil(
     caches.open(CACHE_STATIC)
-      .then((cache) => {
+      .then(async (cache) => {
         console.log('[Service Worker] Pre-cacheando recursos estáticos');
-        return cache.addAll(STATIC_ASSETS);
+        // Cachear archivos individualmente para evitar que un error bloquee todo
+        const cachePromises = STATIC_ASSETS.map(async (url) => {
+          try {
+            const response = await fetch(url);
+            if (response.ok) {
+              await cache.put(url, response);
+              console.log(`[Service Worker] ✓ Cacheado: ${url}`);
+            } else {
+              console.warn(`[Service Worker] ✗ No encontrado: ${url}`);
+            }
+          } catch (error) {
+            console.warn(`[Service Worker] ✗ Error al cachear ${url}:`, error.message);
+          }
+        });
+        await Promise.all(cachePromises);
       })
       .then(() => {
         console.log('[Service Worker] Instalado correctamente');
         return self.skipWaiting(); // Activar inmediatamente
       })
       .catch((error) => {
-        console.error('[Service Worker] Error al cachear archivos:', error);
+        console.error('[Service Worker] Error crítico en instalación:', error);
+        // Aún así intentar activar
+        return self.skipWaiting();
       })
   );
 });
