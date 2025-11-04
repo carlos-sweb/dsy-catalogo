@@ -1,5 +1,5 @@
 // Versión del caché - se actualiza automáticamente en cada build
-const CACHE_VERSION = 'v1762237504303';
+const CACHE_VERSION = 'v1762265920922';
 const CACHE_NAME = `dsy-catalogo-${CACHE_VERSION}`;
 
 // Cachés separados por tipo de recurso
@@ -12,6 +12,7 @@ const CACHE_DYNAMIC = `dynamic-${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   './',
   './index.html',
+  './medios-de-pago.html',
   './manifest.json',
   './styles.css',
   // Fonts
@@ -28,9 +29,8 @@ const STATIC_ASSETS = [
   './icons/icon-152x152.svg',
   './icons/icon-192x192.svg',
   './icons/icon-512x512.svg',
-  // External libraries (CDN)
-  'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js',
-  'https://unpkg.com/mithril/mithril.js'
+  // JavaScript bundle
+  './bundle.js'
 ];
 
 // ========== INSTALACIÓN ==========

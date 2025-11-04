@@ -12,6 +12,7 @@ const CACHE_DYNAMIC = `dynamic-${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   './',
   './index.html',
+  './medios-de-pago.html',
   './manifest.json',
   './styles.css',
   // Fonts
@@ -28,9 +29,8 @@ const STATIC_ASSETS = [
   './icons/icon-152x152.svg',
   './icons/icon-192x192.svg',
   './icons/icon-512x512.svg',
-  // External libraries (CDN)
-  'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js',
-  'https://unpkg.com/mithril/mithril.js'
+  // JavaScript bundle
+  './bundle.js'
 ];
 
 // ========== INSTALACIÓN ==========

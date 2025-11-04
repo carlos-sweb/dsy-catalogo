@@ -3,7 +3,8 @@ module.exports = {
   content: [
     "./public/index.html",
     "./index.html",
-    "./src/build.js"
+    "./src/build.js",
+    "./src/main.js"
   ],
   theme: {
     extend: {

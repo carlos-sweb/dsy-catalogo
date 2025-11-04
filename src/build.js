@@ -3,6 +3,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 const { minify } = require('html-minifier-terser');
 const { execSync } = require('child_process');
+const esbuild = require('esbuild');
 
 // Rutas
 const DATA_FILE = path.join(__dirname, '..', 'data.yml');
@@ -70,9 +71,7 @@ function generarProductoHTML(producto, colorConfig) {
                             <div class="flex justify-end mb-3">
                                 <button class="toggle-caracteristicas text-sm ${colorConfig.text} hover:underline focus:outline-none flex items-center gap-2 transition-all" onclick="toggleCaracteristicas(event)">
                                     <span class="font-medium">Ver más</span>
-                                    <svg class="chevron w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
+                                    <i data-lucide="chevron-down" class="chevron w-4 h-4 transform transition-transform"></i>
                                 </button>
                             </div>
 
@@ -183,12 +182,6 @@ const htmlTemplate = `<!DOCTYPE html>
 
     <!-- Tailwind CSS optimizado -->
     <link href="./styles.css" rel="stylesheet">
-
-    <!-- Lodash -->
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-
-    <!-- Mithril.js -->
-    <script src="https://unpkg.com/mithril/mithril.js"></script>
 
     <style>
         body {
@@ -307,179 +300,30 @@ const htmlTemplate = `<!DOCTYPE html>
 
     <!-- Botón flotante de búsqueda -->
     <button id="search-fab" class="search-fab" aria-label="Buscar productos" title="Buscar productos">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+        <i data-lucide="search"></i>
     </button>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-10 mt-20">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-gray-400 text-lg mb-3">© ${data.configuracion.año} ${data.configuracion.nombre_tienda}</p>
-            <p class="text-gray-500 text-base">${data.configuracion.nota_legal}</p>
+            <p class="text-gray-500 text-base mb-4">${data.configuracion.nota_legal}</p>
+            <a href="./medios-de-pago.html" class="text-blue-400 hover:text-blue-300 underline text-base transition-colors">
+                Medios de pago
+            </a>
         </div>
     </footer>
 
-    <!-- Script de búsqueda con Mithril.js -->
+    <!-- JavaScript Bundle (Lodash + Mithril + Lucide + App Code) -->
+    <script src="./bundle.js"></script>
+
+    <!-- Inicializar iconos de Lucide -->
     <script>
-        // Componente de búsqueda
-        const SearchComponent = {
-            searchTerm: '',
-            totalProducts: 0,
-            visibleProducts: 0,
-            debouncedFilter: null,
-
-            oninit: function() {
-                this.totalProducts = document.querySelectorAll('.producto-card').length;
-                this.visibleProducts = this.totalProducts;
-
-                // Crear función debounced con 300ms de delay
-                this.debouncedFilter = _.debounce((term) => {
-                    this.applyFilter(term);
-                    m.redraw();
-                }, 300);
-            },
-
-            applyFilter: function(term) {
-                const searchLower = term.toLowerCase();
-                const cards = document.querySelectorAll('.producto-card');
-                let visible = 0;
-
-                // Filtrar productos
-                cards.forEach(card => {
-                    const nombre = card.getAttribute('data-nombre');
-                    if (nombre.includes(searchLower)) {
-                        card.classList.remove('hidden');
-                        visible++;
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
-
-                this.visibleProducts = visible;
-
-                // Ocultar/Mostrar categorías según productos visibles
-                const categorySections = document.querySelectorAll('.categoria-section');
-                categorySections.forEach(section => {
-                    const categoriaId = section.getAttribute('data-categoria');
-                    // Contar productos visibles en esta categoría
-                    const visibleInCategory = section.querySelectorAll('.producto-card:not(.hidden)').length;
-
-                    if (visibleInCategory === 0) {
-                        section.classList.add('hidden');
-                    } else {
-                        section.classList.remove('hidden');
-                    }
-                });
-            },
-
-            handleInput: function(value) {
-                // Actualizar searchTerm inmediatamente para mostrar en el input
-                this.searchTerm = value;
-                // Aplicar filtro con debounce
-                this.debouncedFilter(value);
-            },
-
-            clearSearch: function() {
-                this.searchTerm = '';
-                // Cancelar cualquier debounce pendiente
-                this.debouncedFilter.cancel();
-                // Aplicar filtro inmediatamente
-                this.applyFilter('');
-                const input = document.getElementById('search-input');
-                if (input) {
-                    input.value = '';
-                    input.focus();
-                }
-                m.redraw();
-            },
-
-            view: function() {
-                return m('div', { class: 'relative' }, [
-                    // Input de búsqueda
-                    m('div', { class: 'relative' }, [
-                        m('input', {
-                            id: 'search-input',
-                            type: 'text',
-                            placeholder: 'Buscar productos por nombre...',
-                            value: this.searchTerm,
-                            class: 'w-full text-xl px-6 py-4 pr-32 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all',
-                            oninput: (e) => {
-                                this.handleInput(e.target.value);
-                            },
-                            onkeydown: (e) => {
-                                if (e.key === 'Escape') {
-                                    e.preventDefault();
-                                    this.clearSearch();
-                                }
-                            }
-                        }),
-                        // Icono de búsqueda
-                        m('div', {
-                            class: 'absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center gap-2'
-                        }, [
-                            this.searchTerm ?
-                                m('button', {
-                                    class: 'text-gray-400 hover:text-gray-600 transition-colors p-2',
-                                    onclick: () => this.clearSearch(),
-                                    title: 'Limpiar búsqueda (Esc)'
-                                }, [
-                                    m('svg', {
-                                        class: 'w-6 h-6',
-                                        fill: 'none',
-                                        stroke: 'currentColor',
-                                        viewBox: '0 0 24 24'
-                                    }, [
-                                        m('path', {
-                                            'stroke-linecap': 'round',
-                                            'stroke-linejoin': 'round',
-                                            'stroke-width': '2',
-                                            d: 'M6 18L18 6M6 6l12 12'
-                                        })
-                                    ])
-                                ])
-                            : null,
-                            m('svg', {
-                                class: 'w-7 h-7 text-gray-400',
-                                fill: 'none',
-                                stroke: 'currentColor',
-                                viewBox: '0 0 24 24'
-                            }, [
-                                m('path', {
-                                    'stroke-linecap': 'round',
-                                    'stroke-linejoin': 'round',
-                                    'stroke-width': '2',
-                                    d: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                                })
-                            ])
-                        ])
-                    ]),
-                    // Contador de resultados
-                    this.searchTerm ?
-                        m('div', {
-                            class: 'mt-3 text-lg text-gray-600'
-                        }, [
-                            this.visibleProducts === 0 ?
-                                m('span', { class: 'text-red-600 font-semibold' },
-                                    \`No se encontraron productos que coincidan con "\${this.searchTerm}"\`
-                                )
-                            : this.visibleProducts === 1 ?
-                                m('span', { class: 'text-green-600 font-semibold' },
-                                    \`Se encontró 1 producto\`
-                                )
-                            :
-                                m('span', { class: 'text-green-600 font-semibold' },
-                                    \`Se encontraron \${this.visibleProducts} productos\`
-                                )
-                        ])
-                    : null
-                ]);
-            }
-        };
-
-        // Montar el componente cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            m.mount(document.getElementById('search-container'), SearchComponent);
+            // Inicializar todos los iconos de Lucide en la página
+            if (window.createIcons) {
+                window.createIcons();
+            }
         });
     </script>
 
@@ -622,6 +466,122 @@ const htmlTemplate = `<!DOCTYPE html>
 </html>
 `;
 
+// Plantilla HTML para página de medios de pago
+const mediosDePagoTemplate = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medios de Pago - ${data.configuracion.nombre_tienda}</title>
+    <meta name="description" content="Información sobre medios de pago disponibles">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="./icons/icon-72x72.svg">
+
+    <!-- Tailwind CSS optimizado -->
+    <link href="./styles.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-5xl md:text-6xl font-bold mb-3">${data.configuracion.nombre_tienda}</h1>
+            <p class="text-xl text-blue-100">Medios de Pago</p>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Card de información bancaria -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-6">
+                <h2 class="text-3xl font-bold text-white">Banco Scotiabank</h2>
+            </div>
+
+            <div class="p-8 space-y-6">
+                <div class="border-l-4 border-blue-600 pl-6 py-2">
+                    <p class="text-sm text-gray-600 font-semibold mb-1">Tipo de cuenta</p>
+                    <p class="text-xl text-gray-800">Corriente</p>
+                </div>
+
+                <div class="border-l-4 border-blue-600 pl-6 py-2">
+                    <p class="text-sm text-gray-600 font-semibold mb-1">Número de cuenta</p>
+                    <p class="text-2xl font-mono text-gray-800 tracking-wide">123629374620002727</p>
+                </div>
+
+                <div class="border-l-4 border-blue-600 pl-6 py-2">
+                    <p class="text-sm text-gray-600 font-semibold mb-1">Razón Social</p>
+                    <p class="text-xl text-gray-800">Bazar y Paquetería Daisy Montenegro E.I.R.L</p>
+                </div>
+
+                <div class="border-l-4 border-blue-600 pl-6 py-2">
+                    <p class="text-sm text-gray-600 font-semibold mb-1">RUT</p>
+                    <p class="text-xl text-gray-800">16.546.789-5</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-8 py-6 border-t border-gray-200">
+                <p class="text-sm text-gray-600 text-center">
+                    Por favor, envíe el comprobante de transferencia para confirmar su pedido
+                </p>
+            </div>
+        </div>
+
+        <!-- Botón volver -->
+        <div class="mt-8 text-center">
+            <a href="./index.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors shadow-md hover:shadow-lg">
+                <i data-lucide="arrow-left" class="h-5 w-5"></i>
+                Volver al catálogo
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-lg mb-3">© ${data.configuracion.año} ${data.configuracion.nombre_tienda}</p>
+            <p class="text-gray-500 text-base mb-4">${data.configuracion.nota_legal}</p>
+            <a href="./index.html" class="text-blue-400 hover:text-blue-300 underline text-base transition-colors">
+                Volver al catálogo
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Bundle (incluye Lucide) -->
+    <script src="./bundle.js"></script>
+
+    <!-- Inicializar iconos de Lucide -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar todos los iconos de Lucide en la página
+            if (window.createIcons) {
+                window.createIcons();
+            }
+        });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(() => {})
+                    .catch(() => {});
+            });
+        }
+    </script>
+</body>
+</html>
+`;
+
 // Crear directorio de salida si no existe
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -647,6 +607,34 @@ function buildTailwindCSS() {
     console.log(`✓ Tamaño CSS optimizado: ${(cssSize / 1024).toFixed(2)}KB`);
   } catch (error) {
     console.error('❌ Error al generar CSS:', error.message);
+    throw error;
+  }
+}
+
+// Función para bundlear JavaScript con esbuild
+async function buildJavaScript() {
+  console.log('📦 Bundleando JavaScript con esbuild...');
+
+  const INPUT_JS = path.join(__dirname, 'main.js');
+  const OUTPUT_JS = path.join(OUTPUT_DIR, 'bundle.js');
+
+  try {
+    // Usar API programática de esbuild
+    await esbuild.build({
+      entryPoints: [INPUT_JS],
+      bundle: true,
+      minify: true,
+      outfile: OUTPUT_JS,
+      format: 'iife',
+      target: 'es2020'
+    });
+
+    // Verificar tamaño del JS generado
+    const jsSize = fs.statSync(OUTPUT_JS).size;
+    console.log(`✓ JavaScript generado: ${OUTPUT_JS}`);
+    console.log(`✓ Tamaño JS optimizado: ${(jsSize / 1024).toFixed(2)}KB`);
+  } catch (error) {
+    console.error('❌ Error al bundlear JavaScript:', error.message);
     throw error;
   }
 }
@@ -688,8 +676,44 @@ async function buildHTML() {
     fs.writeFileSync(OUTPUT_FILE, htmlTemplate, 'utf8');
     console.log(`✓ Archivo generado (sin minificar): ${OUTPUT_FILE}`);
   }
+}
 
-  copyFilesToRoot();
+// Función async para construir la página de medios de pago
+async function buildMediosDePagoHTML() {
+  console.log('💳 Generando página de medios de pago...');
+
+  const MEDIOS_OUTPUT_FILE = path.join(OUTPUT_DIR, 'medios-de-pago.html');
+
+  // Opciones de minificación
+  const minifyOptions = {
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    useShortDoctype: true,
+    minifyCSS: true,
+    minifyJS: true
+  };
+
+  try {
+    // Minificar HTML (async)
+    const minifiedHTML = await minify(mediosDePagoTemplate, minifyOptions);
+
+    // Escribir HTML minificado
+    fs.writeFileSync(MEDIOS_OUTPUT_FILE, minifiedHTML, 'utf8');
+
+    // Calcular tamaño
+    const minifiedSize = Buffer.byteLength(minifiedHTML, 'utf8');
+
+    console.log(`✓ Archivo generado: ${MEDIOS_OUTPUT_FILE}`);
+    console.log(`✓ Tamaño: ${(minifiedSize / 1024).toFixed(2)}KB`);
+  } catch (error) {
+    console.error('❌ Error al minificar HTML de medios de pago:', error.message);
+    // Escribir HTML sin minificar en caso de error
+    fs.writeFileSync(MEDIOS_OUTPUT_FILE, mediosDePagoTemplate, 'utf8');
+    console.log(`✓ Archivo generado (sin minificar): ${MEDIOS_OUTPUT_FILE}`);
+  }
 }
 
 // Función para copiar archivos a la raíz
@@ -703,6 +727,14 @@ function copyFilesToRoot() {
   // Copiar index.html a la raíz
   fs.copyFileSync(OUTPUT_FILE, ROOT_INDEX);
   console.log(`✓ index.html copiado a la raíz`);
+
+  // Copiar medios-de-pago.html a la raíz
+  const MEDIOS_SRC = path.join(OUTPUT_DIR, 'medios-de-pago.html');
+  const MEDIOS_DEST = path.join(ROOT_DIR, 'medios-de-pago.html');
+  if (fs.existsSync(MEDIOS_SRC)) {
+    fs.copyFileSync(MEDIOS_SRC, MEDIOS_DEST);
+    console.log(`✓ medios-de-pago.html copiado a la raíz`);
+  }
 
   // Copiar manifest.json a la raíz
   const MANIFEST_SRC = path.join(OUTPUT_DIR, 'manifest.json');
@@ -762,13 +794,25 @@ function copyFilesToRoot() {
     console.log(`✓ Carpeta fonts/ copiada a la raíz`);
   }
 
+  // Copiar bundle.js a la raíz
+  const BUNDLE_SRC = path.join(OUTPUT_DIR, 'bundle.js');
+  const BUNDLE_DEST = path.join(ROOT_DIR, 'bundle.js');
+  if (fs.existsSync(BUNDLE_SRC)) {
+    fs.copyFileSync(BUNDLE_SRC, BUNDLE_DEST);
+    const bundleSize = fs.statSync(BUNDLE_DEST).size;
+    console.log(`✓ bundle.js copiado a la raíz (${(bundleSize / 1024).toFixed(2)}KB)`);
+  }
+
   console.log('✅ Build completado exitosamente!');
 }
 
 // Ejecutar el build
 async function build() {
   buildTailwindCSS();
+  await buildJavaScript();
   await buildHTML();
+  await buildMediosDePagoHTML();
+  copyFilesToRoot();
 }
 
 build();
