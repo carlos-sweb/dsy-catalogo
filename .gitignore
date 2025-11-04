@@ -25,3 +25,4 @@ Thumbs.db
 
 # Build output (no ignoramos public/ porque es lo que va a GitHub Pages)
 # public/ - NO ignorar, es necesario para GitHub Pages
+public/
