@@ -2,13 +2,11 @@
   "name": "dsy-catalogo",
   "version": "1.0.0",
   "description": "Catálogo web de productos para paquetería",
-  "main": "src/build.js",
+  "main": "src/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node src/server.js",
-    "build:old": "node src/build.js",
     "icons": "node src/generate-icons.js",
     "optimize": "bash optimize-images.sh"
   },

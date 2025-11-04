@@ -28,26 +28,31 @@ Este catálogo es una **PWA completa** que puede instalarse como una aplicación
 
 ```
 dsy-catalogo/
-├── index.html           # HTML en raíz (copiado automáticamente desde public/)
-├── manifest.json        # PWA manifest (copiado desde public/)
-├── service-worker.js    # Service Worker (copiado desde public/)
-├── icons/               # Iconos PWA (copiado desde public/)
-├── public/              # Directorio de build
-│   ├── index.html       # HTML generado por build.js
+├── index.html           # HTML principal (entry point)
+├── medios-de-pago.html  # Página de medios de pago
+├── public/              # Directorio de build (generado por Vite)
+│   ├── index.html
+│   ├── medios-de-pago.html
 │   ├── manifest.json    # Configuración PWA
 │   ├── service-worker.js
 │   ├── icons/           # Iconos en múltiples tamaños
-│   └── assets/          # Recursos estáticos
+│   └── *.js, *.css      # Assets compilados
+├── static/              # Archivos estáticos (copiados tal cual)
+│   ├── manifest.json
+│   ├── service-worker.js
+│   └── icons/
 ├── src/
-│   ├── build.js         # Script de construcción Node.js
-│   ├── server.js        # Servidor local de desarrollo
+│   ├── main.js          # Entry point de la aplicación
+│   ├── medios-pago.js   # Script de medios de pago
 │   └── generate-icons.js # Generador de iconos
 ├── data.yml             # Datos de productos en formato YAML
+├── vite.config.js       # Configuración de Vite
+├── tailwind.config.js   # Configuración de Tailwind CSS
 ├── package.json         # Dependencias del proyecto
 └── .claudecode          # Contexto para Claude Code
 ```
 
-**Nota:** El comando `npm run build` genera archivos en `public/` y automáticamente los copia a la raíz para GitHub Pages.
+**Nota:** El proyecto ahora usa **Vite.js** como bundler y servidor de desarrollo.
 
 ## Instalación
 
@@ -59,20 +64,31 @@ npm install
 ## Uso
 
 ```bash
-# Generar el sitio estático
+# Servidor de desarrollo con hot-reload
+npm run dev
+
+# Generar el sitio estático para producción
 npm run build
 
-# El HTML se generará en public/index.html
+# Previsualizar el build de producción
+npm run preview
 ```
+
+El servidor de desarrollo se abrirá automáticamente en `http://localhost:3000`
 
 ## Editar Productos
 
 Los productos se gestionan en el archivo `data.yml`. Para agregar o modificar productos:
 
-1. Abre `data.yml`
-2. Edita la información del producto siguiendo el formato existente
-3. Ejecuta `npm run build` para regenerar el HTML
-4. El sitio actualizado estará en `public/index.html`
+### En desarrollo (con hot-reload)
+1. Ejecuta `npm run dev` para iniciar el servidor de desarrollo
+2. Abre `data.yml` y edita la información del producto
+3. Los cambios se reflejarán automáticamente en el navegador
+
+### Para producción
+1. Edita `data.yml` con los nuevos productos
+2. Ejecuta `npm run build` para generar el sitio optimizado
+3. Los archivos listos para deploy estarán en `public/`
 
 ### Estructura de un Producto
 
@@ -132,23 +148,30 @@ Para configurar/actualizar GitHub Pages:
 
 ## Tecnologías
 
-- **Frontend**: HTML5, CSS (Tailwind CDN)
-- **Build**: Node.js + js-yaml
+- **Frontend**: Mithril.js + HTML5
+- **CSS**: Tailwind CSS (con PostCSS y Autoprefixer)
+- **Build**: Vite.js
+- **Iconos**: Lucide Icons
+- **Datos**: YAML (importado dinámicamente)
 - **Hosting**: GitHub Pages
-- **Datos**: YAML
+- **PWA**: Service Worker + Manifest
 
 ## Comandos Disponibles
 
 ```bash
-npm run build    # Generar sitio estático
+npm run dev      # Servidor de desarrollo con hot-reload (puerto 3000)
+npm run build    # Generar sitio estático optimizado
+npm run preview  # Previsualizar build de producción
+npm run icons    # Generar iconos PWA en múltiples tamaños
 ```
 
 ## Contribuir
 
-1. Edita `data.yml` con los nuevos productos
-2. Ejecuta `npm run build`
-3. Verifica los cambios en `public/index.html`
-4. Haz commit y push a GitHub
+1. Inicia el servidor de desarrollo: `npm run dev`
+2. Edita `data.yml` con los nuevos productos
+3. Verifica los cambios en el navegador (hot-reload automático)
+4. Ejecuta `npm run build` para generar la versión de producción
+5. Haz commit y push a GitHub
 
 ## Licencia
 
