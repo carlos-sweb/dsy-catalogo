@@ -10,21 +10,24 @@ export default defineConfig({
   // Directorio de salida del build
   build: {
     outDir: 'public',
-    emptyOutDir: false, // No vaciar public/ para mantener archivos generados por build.js
+    emptyOutDir: true, // Limpiar public/ antes de cada build para eliminar archivos obsoletos
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
         mediosDePago: resolve(__dirname, 'medios-de-pago.html')
       },
       output: {
-        // Configuración de nombres de archivos
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].js',
+        // Configuración de nombres de archivos con hash para cache busting
+        // El hash cambia cuando el contenido cambia, forzando al navegador a descargar la nueva versión
+        entryFileNames: '[name]-[hash].js',
+        chunkFileNames: '[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') {
-            return 'styles.css';
+          // CSS con hash
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return '[name]-[hash].css';
           }
-          return '[name].[ext]';
+          // Otros assets (imágenes, fuentes, etc.) con hash
+          return '[name]-[hash].[ext]';
         }
       }
     },
