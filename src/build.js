@@ -592,49 +592,28 @@ const htmlTemplate = `<!DOCTYPE html>
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
                     .then((registration) => {
-                        console.log('✅ Service Worker registrado:', registration.scope);
-
-                        // Verificar actualizaciones
+                        // Actualización silenciosa automática
                         registration.addEventListener('updatefound', () => {
                             const newWorker = registration.installing;
-                            console.log('🔄 Nueva versión del Service Worker detectada');
-
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    console.log('✨ Nueva versión disponible. Recarga para actualizar.');
-                                    // Opcional: Mostrar notificación al usuario
-                                    if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
-                                        window.location.reload();
-                                    }
+                                    window.location.reload();
                                 }
                             });
                         });
                     })
-                    .catch((error) => {
-                        console.error('❌ Error al registrar Service Worker:', error);
-                    });
+                    .catch(() => {});
             });
-        } else {
-            console.log('⚠️ Service Worker no soportado en este navegador');
         }
 
         // Detectar si la app está instalada
         window.addEventListener('beforeinstallprompt', (event) => {
-            // Prevenir el prompt automático
             event.preventDefault();
-
-            // Guardar el evento para mostrarlo más tarde
             window.deferredPrompt = event;
-
-            console.log('📱 La aplicación puede ser instalada');
-
-            // Opcional: Mostrar botón de instalación personalizado
-            // Aquí podrías mostrar un banner o botón para instalar la PWA
         });
 
         // Detectar cuando la app ha sido instalada
         window.addEventListener('appinstalled', () => {
-            console.log('✅ PWA instalada correctamente');
             window.deferredPrompt = null;
         });
     </script>

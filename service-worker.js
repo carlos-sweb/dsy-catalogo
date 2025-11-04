@@ -1,5 +1,5 @@
 // Versión del caché - se actualiza automáticamente en cada build
-const CACHE_VERSION = 'v1762236893177';
+const CACHE_VERSION = 'v1762237504303';
 const CACHE_NAME = `dsy-catalogo-${CACHE_VERSION}`;
 
 // Cachés separados por tipo de recurso
